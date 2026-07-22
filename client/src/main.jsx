@@ -5,7 +5,7 @@ import App from './App.jsx'
 import { SocketProvider } from './context/SocketContext.jsx'
 import { RoomProvider } from './context/RoomContext.jsx'
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
     <SocketProvider>
       <RoomProvider>
@@ -13,4 +13,4 @@ createRoot(document.getElementById('root')).render(
       </RoomProvider>
     </SocketProvider>
   </StrictMode>,
-)
+);
