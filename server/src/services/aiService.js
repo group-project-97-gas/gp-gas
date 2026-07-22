@@ -1,10 +1,10 @@
 const { GoogleGenAI } = require('@google/genai');
 
-const MODEL_NAME = 'gemini-3.5-flash';
+const MODEL_NAME = 'gemini-3.6-flash'; // pindah dari gemini-3.5-flash — model itu lagi sustained outage (503 UNAVAILABLE/high demand) per laporan publik pertengahan Juli 2026
 const QUESTIONS_TIMEOUT_MS = 20000; // scale dengan totalQuestion, soal makin banyak makin lama outputnya
 const SUMMARY_TIMEOUT_MS = 10000;   // output selalu pendek (2-3 kalimat), tidak scale dengan jumlah pemain
 
-const MAX_RETRIES = 2;       // total percobaan = 1 kali retry (2 attempt total)
+const MAX_RETRIES = 2;       // total percobaan = 2 kali retry (3 attempt total)
 const RETRY_DELAY_MS = 1500; // jeda sebelum retry, kasih waktu Gemini pulih kalau lagi overload
 
 function getClient(timeoutMs) {
