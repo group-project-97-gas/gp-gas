@@ -1,5 +1,5 @@
 const { generateSummary } = require("../services/aiService");
-const { getRoom, updateRoom } = require("../store/roomStore");
+const { getRoom, updateRoom, deleteRoom } = require("../store/roomStore");
 
 const SCORING = {
     BASE_SCORE: 1000,
@@ -42,6 +42,7 @@ function buildQuestionPayload(room, questionIndex) {
         totalQuestions: room.questions.length,
         question: question.question,
         options: question.options,
+        timeLimit: QUESTION_TIME_LIMIT_SECONDS,
     }
 }
 
@@ -244,7 +245,20 @@ function registerTriviaHandlers(io, socket) {
         }
 
         const updatedPlayers = room.players.filter((p) => p.socketId !== socket.id);
-        const updatedRoom = updateRoom(roomCode, { players: updatedPlayers });
+
+        if (updatedPlayers.length === 0) {
+            clearGameState(roomCode);
+            deleteRoom(roomCode);
+            return;
+        }
+
+        const patch = { players: updatedPlayers };
+        const wasHost = room.hostId === socket.id;
+        if (wasHost && room.status === 'waiting') {
+            patch.hostId = updatedPlayers[0].socketId;
+        }
+
+        const updatedRoom = updateRoom(roomCode, patch);
         io.to(roomCode).emit('player_joined', { players: updatedRoom.players });
     });
 }

@@ -1,16 +1,20 @@
 const { GoogleGenAI } = require('@google/genai');
 
 const MODEL_NAME = 'gemini-3.5-flash';
-const REQUEST_TIMEOUT_MS = 20000;
+const QUESTIONS_TIMEOUT_MS = 20000; // scale dengan totalQuestion, soal makin banyak makin lama outputnya
+const SUMMARY_TIMEOUT_MS = 10000;   // output selalu pendek (2-3 kalimat), tidak scale dengan jumlah pemain
 
-function getClient() {
+const MAX_RETRIES = 1;       // total percobaan = 1 kali retry (2 attempt total)
+const RETRY_DELAY_MS = 1000; // jeda sebelum retry, kasih waktu Gemini pulih kalau lagi overload
+
+function getClient(timeoutMs) {
     const apiKey = process.env.GEMINI_API_KEY
     if (!apiKey) {
         throw new Error('GEMINI_API_KEY undefined, not set in development')
     }
     return new GoogleGenAI({
         apiKey,
-        httpOptions: { timeout: REQUEST_TIMEOUT_MS }
+        httpOptions: { timeout: timeoutMs }
     })
 }
 
@@ -22,6 +26,35 @@ function redactApiKey(message) {
         return message
     }
     return message.split(apiKey).join('[REDACTED]')
+}
+
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+// Cuma retry untuk error yang sifatnya transient di sisi Gemini (server lagi
+// overload/timeout internal) — bukan untuk error konfigurasi (API key salah,
+// request invalid, dsb) yang pasti gagal lagi kalau diulang persis sama.
+function isRetryableError(err) {
+    const message = String(err?.message ?? '')
+    return /DEADLINE_EXCEEDED|UNAVAILABLE|RESOURCE_EXHAUSTED|"code":\s*50[0-9]/.test(message)
+}
+
+async function generateContentWithRetry(ai, requestParams) {
+    let lastError
+    for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+        try {
+            return await ai.models.generateContent(requestParams)
+        } catch (err) {
+            lastError = err
+            const isLastAttempt = attempt === MAX_RETRIES
+            if (isLastAttempt || !isRetryableError(err)) {
+                throw err
+            }
+            await sleep(RETRY_DELAY_MS)
+        }
+    }
+    throw lastError
 }
 
 function extractJsonArrayText(rawText) {
@@ -64,7 +97,7 @@ function validateQuestion(question, index) {
 }
 
 async function generateQuestions(topic, difficulty, totalQuestion) {
-    const ai = getClient();
+    const ai = getClient(QUESTIONS_TIMEOUT_MS);
 
     const prompt = `Buatkan ${totalQuestion} soal kuis pilihan ganda berbahasa Indonesia dengan topik "${topic}" dan tingkat kesulitan "${difficulty}".
 
@@ -75,7 +108,7 @@ Field "options" berisi tepat 4 pilihan jawaban berbentuk string. Field "answer" 
 
     let rawText;
     try {
-        const result = await ai.models.generateContent({
+        const result = await generateContentWithRetry(ai, {
             model: MODEL_NAME,
             contents: prompt,
         });
@@ -106,7 +139,7 @@ Field "options" berisi tepat 4 pilihan jawaban berbentuk string. Field "answer" 
 }
 
 async function generateSummary(scores) {
-    const ai = getClient();
+    const ai = getClient(SUMMARY_TIMEOUT_MS);
 
     const prompt = `Berikut data skor akhir seluruh pemain dalam sebuah kuis, dalam format JSON:
 ${JSON.stringify(scores)}
@@ -115,7 +148,7 @@ Buat ringkasan performa seluruh pemain dalam 2-3 kalimat berbahasa Indonesia. Ba
 
     let rawText;
     try {
-        const result = await ai.models.generateContent({
+        const result = await generateContentWithRetry(ai, {
             model: MODEL_NAME,
             contents: prompt,
         });
