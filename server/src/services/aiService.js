@@ -4,8 +4,8 @@ const MODEL_NAME = 'gemini-3.5-flash';
 const QUESTIONS_TIMEOUT_MS = 20000; // scale dengan totalQuestion, soal makin banyak makin lama outputnya
 const SUMMARY_TIMEOUT_MS = 10000;   // output selalu pendek (2-3 kalimat), tidak scale dengan jumlah pemain
 
-const MAX_RETRIES = 1;       // total percobaan = 1 kali retry (2 attempt total)
-const RETRY_DELAY_MS = 1000; // jeda sebelum retry, kasih waktu Gemini pulih kalau lagi overload
+const MAX_RETRIES = 2;       // total percobaan = 1 kali retry (2 attempt total)
+const RETRY_DELAY_MS = 1500; // jeda sebelum retry, kasih waktu Gemini pulih kalau lagi overload
 
 function getClient(timeoutMs) {
     const apiKey = process.env.GEMINI_API_KEY
