@@ -111,6 +111,9 @@ Field "options" berisi tepat 4 pilihan jawaban berbentuk string. Field "answer" 
         const result = await generateContentWithRetry(ai, {
             model: MODEL_NAME,
             contents: prompt,
+            config: {
+                thinkingConfig: { thinkingLevel: 'minimal' },
+            },
         });
         rawText = result.text;
     } catch (err) {
@@ -151,6 +154,9 @@ Buat ringkasan performa seluruh pemain dalam 2-3 kalimat berbahasa Indonesia. Ba
         const result = await generateContentWithRetry(ai, {
             model: MODEL_NAME,
             contents: prompt,
+            config: {
+                thinkingConfig: { thinkingLevel: 'minimal' },
+            },
         });
         rawText = result.text;
     } catch (err) {

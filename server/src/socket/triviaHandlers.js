@@ -82,6 +82,7 @@ async function finishGame(io, roomCode, room) {
     try {
         summaryText = await generateSummary(finalRankings)
     } catch (error) {
+        console.error(`generateSummary gagal untuk room ${roomCode}:`, error.message)
         summaryText = 'Ringkasan AI tidak tersedia saat ini.'
     }
 
