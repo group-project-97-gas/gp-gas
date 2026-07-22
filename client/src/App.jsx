@@ -1,10 +1,10 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router";
-import Home from "./pages/Home.jsx";
-import CreateQuiz from "./pages/CreateQuiz.jsx";
-import Lobby from "./pages/Lobby.jsx";
-import Game from "./pages/Game.jsx";
-import Result from "./pages/Result.jsx";
-import ConnectionBanner from "./components/ConnectionBanner.jsx";
+import { BrowserRouter, Routes, Route, Link } from 'react-router';
+import Home from './pages/Home.jsx';
+import CreateQuiz from './pages/CreateQuiz.jsx';
+import Lobby from './pages/Lobby.jsx';
+import Game from './pages/Game.jsx';
+import Result from './pages/Result.jsx';
+import ConnectionBanner from './components/ConnectionBanner.jsx';
 
 function App() {
   return (
