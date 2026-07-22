@@ -1,0 +1,258 @@
+@import "tailwindcss";
+
+@theme {
+    --font-display: "Orbitron", sans-serif;
+    --font-sans: "Rajdhani", sans-serif;
+    --font-mono: "Share Tech Mono", monospace;
+
+    --color-cyber-bg: #08070d;
+    --color-cyber-surface: #131120;
+    --color-cyber-surface-2: #1c1a2e;
+    --color-cyber-border: #332f52;
+    --color-cyber-cyan: #05d9e8;
+    --color-cyber-pink: #ff2a6d;
+    --color-cyber-yellow: #fcee0a;
+    --color-cyber-purple: #b537f2;
+    --color-cyber-red: #ff2247;
+    --color-cyber-text: #eae8f7;
+    --color-cyber-dim: #8b87a8;
+}
+
+html {
+    color-scheme: dark;
+}
+
+body {
+    margin: 0;
+    background: var(--color-cyber-bg);
+    color: var(--color-cyber-text);
+    font-family: var(--font-sans);
+    font-optical-sizing: auto;
+}
+
+::selection {
+    background: var(--color-cyber-pink);
+    color: var(--color-cyber-bg);
+}
+
+* {
+    scrollbar-color: var(--color-cyber-cyan) var(--color-cyber-surface);
+    scrollbar-width: thin;
+}
+
+/* ---------- Fixed backdrop layers (grid glow + scanlines) ---------- */
+
+.cyber-backdrop {
+    background-image:
+        linear-gradient(rgba(5, 217, 232, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(5, 217, 232, 0.06) 1px, transparent 1px),
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(181, 55, 242, 0.22), transparent 60%),
+        radial-gradient(ellipse 60% 40% at 100% 100%, rgba(255, 42, 109, 0.16), transparent 55%);
+    background-size:
+        42px 42px,
+        42px 42px,
+        100% 100%,
+        100% 100%;
+}
+
+.cyber-scanlines {
+    background: repeating-linear-gradient(to bottom,
+            rgba(255, 255, 255, 0.035),
+            rgba(255, 255, 255, 0.035) 1px,
+            transparent 1px,
+            transparent 3px);
+    mix-blend-mode: overlay;
+}
+
+/* ---------- Angular "HUD panel" cut-corner shapes ---------- */
+
+.cyber-panel {
+    clip-path: polygon(14px 0,
+            100% 0,
+            100% calc(100% - 14px),
+            calc(100% - 14px) 100%,
+            0 100%,
+            0 14px);
+}
+
+.cyber-panel-sm {
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+}
+
+.cyber-card {
+    background: var(--color-cyber-surface);
+    border: 1px solid var(--color-cyber-border);
+}
+
+/* ---------- Buttons ---------- */
+
+.cyber-btn {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition:
+        filter 0.15s ease,
+        background-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.cyber-btn-primary {
+    background: var(--color-cyber-cyan);
+    color: var(--color-cyber-bg);
+    border: 1px solid var(--color-cyber-cyan);
+    filter: drop-shadow(0 0 6px rgba(5, 217, 232, 0.55));
+}
+
+.cyber-btn-primary:hover:not(:disabled) {
+    background: #3ce7f4;
+    filter: drop-shadow(0 0 14px rgba(5, 217, 232, 0.85));
+}
+
+.cyber-btn-primary:disabled {
+    background: var(--color-cyber-surface-2);
+    color: var(--color-cyber-dim);
+    border-color: var(--color-cyber-border);
+    filter: none;
+}
+
+.cyber-btn-secondary {
+    background: transparent;
+    color: var(--color-cyber-pink);
+    border: 1px solid var(--color-cyber-pink);
+    filter: drop-shadow(0 0 0 transparent);
+}
+
+.cyber-btn-secondary:hover:not(:disabled) {
+    background: rgba(255, 42, 109, 0.12);
+    filter: drop-shadow(0 0 10px rgba(255, 42, 109, 0.65));
+}
+
+.cyber-btn-secondary:disabled {
+    color: var(--color-cyber-dim);
+    border-color: var(--color-cyber-border);
+}
+
+/* ---------- Inputs ---------- */
+
+.cyber-input {
+    background: var(--color-cyber-surface);
+    border: 1px solid var(--color-cyber-border);
+    color: var(--color-cyber-text);
+    font-family: var(--font-sans);
+    transition:
+        border-color 0.15s ease,
+        filter 0.15s ease;
+}
+
+.cyber-input::placeholder {
+    color: var(--color-cyber-dim);
+}
+
+.cyber-input:focus {
+    outline: none;
+    border-color: var(--color-cyber-cyan);
+    filter: drop-shadow(0 0 6px rgba(5, 217, 232, 0.6));
+}
+
+.cyber-input:disabled {
+    color: var(--color-cyber-dim);
+    background: var(--color-cyber-surface-2);
+}
+
+.cyber-label {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-cyber-dim);
+}
+
+/* ---------- Neon text glow ---------- */
+
+.neon-cyan {
+    text-shadow:
+        0 0 6px rgba(5, 217, 232, 0.9),
+        0 0 18px rgba(5, 217, 232, 0.45);
+}
+
+.neon-pink {
+    text-shadow:
+        0 0 6px rgba(255, 42, 109, 0.9),
+        0 0 18px rgba(255, 42, 109, 0.45);
+}
+
+.neon-yellow {
+    text-shadow:
+        0 0 6px rgba(252, 238, 10, 0.85),
+        0 0 18px rgba(252, 238, 10, 0.4);
+}
+
+/* ---------- Glitch title flicker (subtle, not constant) ---------- */
+
+@keyframes glitch-flicker {
+
+    0%,
+    88%,
+    100% {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+
+    90% {
+        opacity: 0.85;
+        transform: translate(-1px, 1px);
+    }
+
+    92% {
+        opacity: 1;
+        transform: translate(1px, -1px);
+    }
+
+    94% {
+        opacity: 0.88;
+        transform: translate(-1px, 0);
+    }
+
+    96% {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+}
+
+.glitch-text {
+    animation: glitch-flicker 6s infinite;
+    text-shadow:
+        0 0 8px rgba(5, 217, 232, 0.8),
+        2px 0 rgba(255, 42, 109, 0.7),
+        -2px 0 rgba(181, 55, 242, 0.6);
+}
+
+/* ---------- Rank badges ---------- */
+
+.cyber-badge {
+    font-family: var(--font-mono);
+    font-weight: 700;
+}
+
+.cyber-badge-1 {
+    color: #0a0a0f;
+    background: var(--color-cyber-yellow);
+    filter: drop-shadow(0 0 6px rgba(252, 238, 10, 0.7));
+}
+
+.cyber-badge-2 {
+    color: #0a0a0f;
+    background: var(--color-cyber-cyan);
+    filter: drop-shadow(0 0 6px rgba(5, 217, 232, 0.6));
+}
+
+.cyber-badge-3 {
+    color: #0a0a0f;
+    background: var(--color-cyber-pink);
+    filter: drop-shadow(0 0 6px rgba(255, 42, 109, 0.6));
+}
+
+.cyber-badge-default {
+    color: var(--color-cyber-dim);
+    background: var(--color-cyber-surface-2);
+    border: 1px solid var(--color-cyber-border);
+}
