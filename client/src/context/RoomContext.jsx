@@ -21,12 +21,6 @@ export function RoomProvider({ children }) {
   const [leaderboard, setLeaderboard] = useState([]);
   const [summaryText, setSummaryText] = useState("");
 
-  // Registered here (not in a page component) so these are active regardless of
-  // which page is mounted — e.g. join_room has no ack, so a page-local listener
-  // could miss the player_joined broadcast that fires immediately after the
-  // emit, and a page-local 'summary' listener could get torn down (its page
-  // unmounted via the 'game_over' navigate) before 'summary' actually arrives.
-  // Pages only read this state and handle navigation/emit side-effects.
   useEffect(() => {
     function handlePlayerJoined(payload) {
       setPlayers(payload.players);

@@ -12,8 +12,6 @@ export function SocketProvider({ children }) {
   }
 
   const [isConnected, setIsConnected] = useState(false);
-  // Tracks whether we've ever connected, so the reconnect banner only shows
-  // for a real drop mid-session — not during the very first handshake.
   const [hasConnectedOnce, setHasConnectedOnce] = useState(false);
 
   useEffect(() => {
