@@ -41,9 +41,9 @@ Dibuat sebagai Group Project Fase 2 — Hacktiv8 Full Stack JavaScript Bootcamp.
 Aplikasi ini menggunakan arsitektur **client-server terpisah**:
 
 ```
-┌─────────────┐         REST API          ┌─────────────┐         ┌─────────────┐
-│   Client    │ ────────────────────────▶ │   Server    │ ──────▶ │  Gemini AI  │
-│ (React+Vite)│ ◀──────────────────────── │ (Express +  │ ◀────── │             │
+┌─────────────┐         REST API           ┌─────────────┐         ┌─────────────┐
+│   Client    │ ────────────────────────▶  │   Server    │ ──────▶ │  Gemini AI  │
+│ (React+Vite)│ ◀────────────────────────  │ (Express +  │ ◀────── │             │
 │             │      Socket.IO (real-time) │  Socket.IO) │         └─────────────┘
 └─────────────┘ ◀────────────────────────▶ └─────────────┘
 ```
@@ -124,8 +124,8 @@ Akses `http://localhost:5173` di browser. Buka di 2+ tab/device berbeda untuk si
 
 ## Live Demo
 
-- **Client:** _(isi link Vercel di sini)_
-- **Server:** _(isi link Railway/Render/dll di sini, opsional)_
+- **Client: https://gp-gas.vercel.app/
+- **Server: https://gp-gas-production.up.railway.app/
 
 ---
 
