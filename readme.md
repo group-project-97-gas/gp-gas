@@ -124,7 +124,7 @@ Akses `http://localhost:5173` di browser. Buka di 2+ tab/device berbeda untuk si
 
 ## Live Demo
 
-- **Client: https://gp-gas.vercel.app/ **
+- **Client: https://gp-gas.vercel.app/**
 - **Server: https://gp-gas-production.up.railway.app/**
 
 ---
