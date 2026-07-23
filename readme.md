@@ -136,9 +136,3 @@ Akses `http://localhost:5173` di browser. Buka di 2+ tab/device berbeda untuk si
 | ismailarifberlianto | Server App |
 | rayyandwiutomo | Client App Lobby |
 | Muhamad Raafi Dewanto | Client App Room Quiz |
-
----
-
-## 📄 Lisensi
-
-Project ini dibuat untuk keperluan pembelajaran (Hacktiv8 Bootcamp) dan bukan untuk penggunaan komersial.
